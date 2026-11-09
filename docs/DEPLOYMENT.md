@@ -6,7 +6,8 @@
 - Vercel meng-host frontend dan API Express.
 - Snapshot 879 formasi berada di `prisma/offline.sqlite.gz` dan ikut dibundel dengan API Function.
 - Vercel tidak membutuhkan Supabase, PostgreSQL, URL database, atau `CRON_SECRET`.
-- Sinkronisasi Aesen dan Cron dinonaktifkan. Data hanya berubah jika snapshot baru di-commit dan aplikasi di-deploy ulang.
+- Sinkronisasi Aesen dan Cron dinonaktifkan.
+- Endpoint API Vercel dideklarasikan per file di folder `api/`; pola catch-all Next.js tidak dipakai oleh proyek Vite ini. Data hanya berubah jika snapshot baru di-commit dan aplikasi di-deploy ulang.
 
 ## Impor repository
 
@@ -28,3 +29,4 @@ Perubahan data bukan sinkron live. Bila perlu mengganti snapshot, kompres berkas
 - API produksi membaca salinan SQLite sementara per instance; perubahan data melalui API tidak disimpan sebagai dataset baru.
 - Favorit, catatan, shortlist, dan rencana belajar disimpan di local storage browser pada perangkat yang sama.
 - Periksa persyaratan akhir di SSCASN dan pengumuman instansi.
+
