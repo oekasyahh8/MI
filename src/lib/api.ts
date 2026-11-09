@@ -8,7 +8,13 @@ export function queryString(params: URLSearchParams | Record<string, string | nu
 
 export async function api<T>(path: string, init?: RequestInit): Promise<ApiResponse<T>> {
   const response = await fetch(`/api${path}`, init);
-  const json = await response.json() as ApiResponse<T>;
+  let json: ApiResponse<T>;
+  try {
+    json = await response.json() as ApiResponse<T>;
+  } catch {
+    const contentType = response.headers.get('content-type') ?? 'unknown content type';
+    throw new Error(`API Vercel mengirim ${contentType} (HTTP ${response.status}), bukan JSON. Periksa deployment terbaru.`);
+  }
   if (!response.ok || !json.success) throw new Error(json.error ?? `Permintaan gagal (${response.status}).`);
   return json;
 }
