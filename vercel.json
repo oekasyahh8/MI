@@ -3,15 +3,20 @@
   "buildCommand": "npm run build:vercel",
   "outputDirectory": "dist",
   "functions": {
-    "api/**/*.ts": {
+    "api/gateway.ts": {
       "maxDuration": 60,
       "includeFiles": "prisma/offline.sqlite.gz"
     }
   },
   "rewrites": [
     {
+      "source": "/api/:apiPath*",
+      "destination": "/api/gateway?__vercel_api_path=:apiPath*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
 }
+

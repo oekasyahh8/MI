@@ -7,7 +7,7 @@
 - Snapshot 879 formasi berada di `prisma/offline.sqlite.gz` dan ikut dibundel dengan API Function.
 - Vercel tidak membutuhkan Supabase, PostgreSQL, URL database, atau `CRON_SECRET`.
 - Sinkronisasi Aesen dan Cron dinonaktifkan.
-- Endpoint API Vercel dideklarasikan per file di folder `api/`; pola catch-all Next.js tidak dipakai oleh proyek Vite ini. Data hanya berubah jika snapshot baru di-commit dan aplikasi di-deploy ulang.
+- Semua endpoint API diteruskan oleh satu Vercel Function agar tetap sesuai batas Hobby. Rewrite `/api/:apiPath*` mempertahankan path dan query saat Express menerima request. Data hanya berubah jika snapshot baru di-commit dan aplikasi di-deploy ulang.
 
 ## Impor repository
 
