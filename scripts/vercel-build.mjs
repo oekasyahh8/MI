@@ -7,6 +7,7 @@ function run(command, args) {
 }
 
 // Production uses the packaged SQLite snapshot. No network database or migration is required.
+process.env.DATABASE_URL = 'file:./prisma/dev.db';
 run(process.execPath, ['node_modules/prisma/build/index.js', 'generate', '--schema', 'prisma/schema.prisma']);
 
 run(process.execPath, ['node_modules/typescript/bin/tsc', '-p', 'server/tsconfig.json']);
