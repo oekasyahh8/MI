@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dist-server/
+.vercel/
+coverage/
+.tmp/
+test-results/
+playwright-report/
+prisma/e2e.db
+.env*
+!.env.example
+*.db
+*.db-journal
+*.tsbuildinfo

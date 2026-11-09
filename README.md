@@ -64,4 +64,3 @@ npm run test:e2e
 E2E menggunakan database SQLite khusus `prisma/e2e.db` dan dataset fixture sintetis kecil; basis data tersebut direset saat tes dimulai. Di Windows dengan Microsoft Edge terpasang, tes juga dapat dijalankan dengan `$env:PLAYWRIGHT_CHANNEL='msedge'; npm run test:e2e`.
 
 Rasio pelamar per kuota dan skor rekomendasi adalah indikator analisis historis, bukan probabilitas kelulusan. Periksa persyaratan resmi di [SSCASN](https://sscasn.bkn.go.id/) dan pengumuman instansi. MI CASN Analytics bukan bagian dari BKN/SSCASN.
-

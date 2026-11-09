@@ -1,0 +1,24 @@
+import { ExternalLink, FileText, Info, ShieldCheck, TriangleAlert } from 'lucide-react';
+import { Card } from '../components/ui/card';
+import { PageIntro } from '../components/shared';
+
+const statements = [
+  ['Sumber data', 'Data ditampilkan hanya setelah dataset diimpor ke MI CASN Analytics. Dashboard tidak mengambil dataset contoh dan tidak mengklaim kelengkapan seluruh formasi 2024. Setiap dataset menyimpan nama, tahun, sumber, waktu impor, jumlah record, dan catatan.'],
+  ['Data historis', 'Data CASN 2024 adalah referensi historis. Dataset ini tidak menjamin jabatan, kuota, persyaratan, gaji, atau pola pelamar yang sama akan dibuka pada seleksi CPNS 2026.'],
+  ['Verifikasi pendidikan', 'Pencocokan pendidikan membantu menyaring teks persyaratan yang diimpor. Pastikan kualifikasi, akreditasi, nama program studi, dan jenjang diterima melalui pengumuman resmi instansi sebelum mendaftar.'],
+  ['Skor rekomendasi', 'Skor prioritas analisis adalah alat bantu untuk mengurutkan formasi historis menggunakan bobot yang ditampilkan. Skor bukan peluang atau probabilitas kelulusan.'],
+  ['Rasio persaingan', 'Rasio pelamar per kursi dihitung sebagai jumlah pelamar dibagi kuota. Rasio ini merupakan indikator deskriptif historis dan bukan probabilitas lolos. Jika pelamar atau kuota tidak tersedia, rasio ditandai belum tersedia.'],
+  ['Data gaji', 'Kolom gaji dapat berisi rentang dan tidak selalu mencakup tunjangan. Dashboard menyimpan angka sesuai hasil pemetaan; periksa satuan file sumber sebelum membandingkan nominal.'],
+  ['Nilai kosong', 'Nilai kosong tetap ditampilkan sebagai “Tidak tersedia”. Nilai kosong tidak diperlakukan sebagai nol. Formasi tanpa persyaratan pendidikan masuk tinjauan manual.'],
+  ['Kedudukan layanan', 'Aesen adalah sumber pihak ketiga dan bukan pengganti sumber resmi BKN. MI CASN Analytics adalah alat riset independen dan bukan bagian dari BKN atau SSCASN.'],
+];
+
+export function AboutPage() {
+  return <div className="space-y-5">
+    <PageIntro eyebrow="TRANSPARANSI & KETERBATASAN" title="Tentang Data" description="Baca asal data dan batasan analisis sebelum menggunakan hasil dashboard untuk menyusun rencana seleksi." />
+    <Card className="border-blue-100 bg-blue-50/60"><div className="flex gap-3 p-4"><Info className="mt-0.5 shrink-0 text-blue-700" size={18} /><div><p className="text-xs font-bold text-blue-900">Data source-first</p><p className="mt-1 text-[10px] leading-relaxed text-blue-900/80">Aplikasi ini tidak mengisi dashboard dengan angka buatan. Semua KPI dan grafik berasal dari baris yang benar-benar tersimpan di dataset impor lokal. Jika dataset belum tersedia, halaman menampilkan keadaan kosong.</p></div></div></Card>
+    <Card className="overflow-hidden"><div className="border-b border-slate-200 px-4 py-3"><h3 className="text-sm font-bold text-slate-800">Batas interpretasi data</h3></div><div className="divide-y divide-slate-100">{statements.map(([title, body]) => <section key={title} className="grid gap-2 p-4 sm:grid-cols-[180px_1fr]"><h4 className="text-[11px] font-bold text-slate-700">{title}</h4><p className="text-[10px] leading-relaxed text-slate-600">{body}</p></section>)}</div></Card>
+    <div className="grid gap-4 lg:grid-cols-2"><Card><div className="flex gap-3 p-4"><ShieldCheck className="mt-0.5 shrink-0 text-emerald-700" size={17} /><div><h3 className="text-xs font-bold text-slate-800">Pengelolaan lokal</h3><p className="mt-1 text-[10px] leading-relaxed text-slate-500">Database SQLite dan preferensi tanpa autentikasi berjalan pada lingkungan lokal. Catatan dan favorit tersimpan di local storage browser.</p></div></div></Card><Card><div className="flex gap-3 p-4"><TriangleAlert className="mt-0.5 shrink-0 text-amber-700" size={17} /><div><h3 className="text-xs font-bold text-slate-800">Pemeriksaan sumber resmi</h3><p className="mt-1 text-[10px] leading-relaxed text-slate-500">Untuk informasi seleksi terkini dan persyaratan resmi, periksa portal nasional BKN/SSCASN dan pengumuman instansi terkait.</p><a href="https://sscasn.bkn.go.id/" target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1 text-[10px] font-bold text-teal-800 hover:underline">Buka SSCASN resmi<ExternalLink size={12} /></a></div></div></Card></div>
+    <Card className="bg-[#10263d]"><div className="flex flex-wrap items-center justify-between gap-3 p-4"><div className="flex gap-3"><FileText className="mt-0.5 text-teal-200" size={17} /><div><p className="text-xs font-bold text-white">Dokumentasi investigasi sumber</p><p className="mt-1 text-[10px] text-slate-300">Lihat endpoint yang dapat diverifikasi dan keterbatasan pemeriksaan web.</p></div></div><a href="/docs/SOURCE_ANALYSIS.md" target="_blank" className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-3 py-2 text-[10px] font-semibold text-white hover:bg-white/15">SOURCE_ANALYSIS.md <ExternalLink size={12} /></a></div></Card>
+  </div>;
+}

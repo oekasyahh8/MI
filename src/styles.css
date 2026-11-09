@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { font-family: "DM Sans", sans-serif; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 360px; min-height: 100vh; }
+.font-display { font-family: "Manrope", sans-serif; }
+input, select, button { font: inherit; }
+button { cursor: pointer; }
+.sidebar { min-height: 100vh; height: 100vh; position: sticky; top: 0; }
+.sidebar-nav::-webkit-scrollbar { width: 4px; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+.field-select { width: 100%; min-height: 36px; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0 10px; background: white; color: #334155; font-size: 11px; outline: none; }
+.field-select:focus { border-color: #0d9488; box-shadow: 0 0 0 2px rgb(13 148 136 / 10%); }
+.data-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+.data-table th { color: #64748b; background: #f8fafc; font-size: 10px; font-weight: 700; letter-spacing: .03em; text-align: left; white-space: nowrap; padding: 12px 14px; border-bottom: 1px solid #e8edf2; }
+.data-table td { color: #475569; font-size: 11px; padding: 13px 14px; border-bottom: 1px solid #eef1f5; vertical-align: top; }
+.data-table tbody tr:last-child td { border-bottom: 0; }
+.data-table tbody tr:hover td { background: #f9fbfc; }
+.chart-tooltip { padding: 9px 12px; border: 1px solid #e2e8f0; border-radius: 10px; background: white; box-shadow: 0 10px 25px rgb(15 23 42 / 8%); font-size: 11px; }
+.chart-tooltip p { margin: 2px 0; }
+.skeleton { background: linear-gradient(90deg,#eef2f6 20%,#f8fafc 45%,#eef2f6 70%); background-size: 220% 100%; animation: pulse 1.3s ease infinite; }
+@keyframes pulse { to { background-position-x: -220%; } }
+@media (max-width: 767px) {
+  .sidebar { position: fixed; left: -270px; z-index: 40; width: 252px !important; transition: left .2s ease; }
+  .sidebar-mobile-open { left: 0; }
+  .sidebar-collapsed { width: 252px !important; }
+  .sidebar-collapsed .sidebar-nav span { display: inline !important; }
+  .page-area { padding: 18px 14px; }
+  .topbar { height: 64px; padding-left: 14px; padding-right: 14px; }
+  .active-chips { padding-left: 14px; padding-right: 14px; }
+}

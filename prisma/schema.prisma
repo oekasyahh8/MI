@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Dataset {
+  id             Int           @id @default(autoincrement())
+  name           String
+  year           Int
+  source         String?
+  notes          String?
+  status         String        @default("imported")
+  recordCount    Int           @default(0)
+  importedAt     DateTime      @default(now())
+  formations     Formation[]
+  batches        ImportBatch[]
+  @@index([year])
+}
+
+model ImportBatch {
+  id             Int       @id @default(autoincrement())
+  datasetId      Int
+  fileName       String
+  source         String?
+  importedAt     DateTime  @default(now())
+  recordCount    Int       @default(0)
+  failedCount    Int       @default(0)
+  duplicateCount Int       @default(0)
+  emptyQuotaCount Int      @default(0)
+  notes          String?
+  dataset        Dataset   @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  formations     Formation[]
+  @@index([datasetId])
+}
+
+model Formation {
+  id                         Int          @id @default(autoincrement())
+  sourceId                   String?
+  datasetYear                Int
+  procurementType            String?
+  formationType              String?
+  positionName               String
+  agencyName                 String
+  unitWorkName               String?
+  placementName              String?
+  province                   String?
+  regency                    String?
+  educationLevel             String?
+  requiredEducationRaw       String?
+  requiredEducationNormalized String?
+  quota                      Int
+  applicantCount             Int?
+  applicantPerSeat           Float?
+  salaryMin                  Float?
+  salaryMax                  Float?
+  salaryCurrency             String         @default("IDR")
+  matchingCategory           String
+  matchingReason             String
+  dataSource                 String?
+  importBatchId              Int
+  datasetId                  Int
+  createdAt                  DateTime       @default(now())
+  updatedAt                  DateTime       @updatedAt
+  dataset                    Dataset        @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  importBatch                ImportBatch    @relation(fields: [importBatchId], references: [id], onDelete: Cascade)
+  @@index([agencyName])
+  @@index([positionName])
+  @@index([province])
+  @@index([regency])
+  @@index([requiredEducationNormalized])
+  @@index([datasetYear])
+  @@index([matchingCategory])
+  @@index([datasetId])
+  @@unique([datasetId, sourceId])
+}
+
+model EducationAlias {
+  id         Int      @id @default(autoincrement())
+  alias      String   @unique
+  canonical  String
+  category   String
+  createdAt  DateTime @default(now())
+}
+
+model FavoriteFormation {
+  id          Int      @id @default(autoincrement())
+  profileId   String   @default("local")
+  formationId Int
+  note        String?
+  reason      String?
+  status      String   @default("Belum Dipelajari")
+  createdAt   DateTime @default(now())
+  @@unique([profileId, formationId])
+  @@index([profileId])
+}
+
+model UserNote {
+  id          Int      @id @default(autoincrement())
+  profileId   String   @default("local")
+  formationId Int
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([profileId, formationId])
+}
+
+model SavedPlan {
+  id             Int      @id @default(autoincrement())
+  profileId      String   @default("local")
+  name           String
+  targetProvince String?
+  targetPosition String?
+  status         String   @default("Belum Dipelajari")
+  note           String?
+  updatedAt      DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  @@index([profileId])
+}
+
+model SavedComparison {
+  id          Int      @id @default(autoincrement())
+  profileId   String   @default("local")
+  name        String
+  formationIds String
+  createdAt   DateTime @default(now())
+  @@index([profileId])
+}
