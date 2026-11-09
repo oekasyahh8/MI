@@ -122,12 +122,14 @@ app.get('/api/source/aesen/status', async (_req, res, next) => {
 const aesenSyncRateLimit = rateLimit({ windowMs: 10 * 60_000, limit: 1, standardHeaders: true, legacyHeaders: false });
 app.post('/api/source/aesen/sync', aesenSyncRateLimit, async (_req, res, next) => {
   try {
+    if (process.env.VERCEL === '1') { res.status(410).json({ success: false, error: 'Dataset production adalah snapshot offline dan tidak disinkronkan.' }); return; }
     if (process.env.AUTO_SYNC_AESEN === 'false') { res.status(409).json({ success: false, error: 'Sinkronisasi Aesen dinonaktifkan oleh konfigurasi.' }); return; }
     res.json(response(await syncAesenD3MiDataset()));
   } catch (error) { next(error); }
 });
 
 app.get('/api/source/aesen/cron', async (req, res, next) => {
+  if (process.env.VERCEL === '1') { res.status(410).json({ success: false, error: 'Dataset production adalah snapshot offline dan tidak disinkronkan.' }); return; }
   const secret = process.env.CRON_SECRET;
   const authorization = req.get('authorization') ?? '';
   const expected = secret ? `Bearer ${secret}` : '';

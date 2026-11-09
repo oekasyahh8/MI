@@ -1,17 +1,16 @@
 # MI CASN Analytics
 
-Dashboard analisis formasi CASN historis untuk lulusan D3 Manajemen Informatika. UI berbahasa Indonesia. Dataset Aesen CASN 2024 dimuat otomatis untuk kode prodi D-III Manajemen Informatika; aplikasi tidak menampilkan dataset palsu.
+Dashboard analisis formasi CASN historis untuk lulusan D3 Manajemen Informatika. UI berbahasa Indonesia. Aplikasi memakai snapshot tetap 879 formasi arsip CASN 2024 untuk kode prodi D-III Manajemen Informatika. Tidak ada sinkronisasi live ke SSCASN atau Aesen.
 
 ## Fitur
 
 - Dashboard KPI, grafik interaktif, dan filter global berbasis query URL.
 - Katalog formasi dengan server-side search, filter, pagination, sorting, kolom, detail, dan ekspor CSV/XLSX/JSON.
-- Otomatis memuat formasi yang disaring untuk D-III Manajemen Informatika dari sumber Aesen CASN 2024, dengan impor CSV/XLSX/JSON sebagai pilihan tambahan.
+- Dataset snapshot D-III Manajemen Informatika yang dibundel bersama aplikasi; Vercel tidak memerlukan database eksternal.
 - Analisis pendidikan, instansi, jabatan, wilayah, persaingan, dan skor prioritas historis berbobot.
 - Favorit, catatan personal, target wilayah/jabatan, status persiapan, dan perbandingan 2–5 formasi.
-- Import CSV/XLSX/JSON dengan preview, mapping kolom, validasi, deduplikasi, data-quality report, dan provenance batch.
-- Backend Express, TypeScript, Prisma, rate limit, Helmet, CORS, Zod, upload limits; SQLite for local development and PostgreSQL for production.
-- Siap deploy ke Vercel dengan PostgreSQL dan sinkronisasi Aesen terjadwal.
+- Backend Express, TypeScript, Prisma, rate limit, Helmet, CORS, dan Zod; SQLite lokal dan snapshot SQLite terbundel di Vercel.
+- Favorit, rencana, dan catatan belajar disimpan di local storage browser pada perangkat yang sama.
 
 ## Mulai cepat
 
@@ -27,15 +26,15 @@ npm run db:deploy
 npm run dev
 ```
 
-Buka `http://localhost:5173` lalu masuk ke **Data Management** untuk mengimpor dataset. Panduan lengkap ada di [docs/INSTALLATION.md](docs/INSTALLATION.md).
+Buka `http://localhost:5173`. Dataset snapshot tersedia langsung; sinkronisasi Aesen dinonaktifkan secara default. Panduan lengkap ada di [docs/INSTALLATION.md](docs/INSTALLATION.md).
 
 ## Dokumentasi
 
-- [Analisis sumber Aesen](docs/SOURCE_ANALYSIS.md): halaman yang diperiksa, endpoint yang terverifikasi, dan batas investigasi.
+- [Analisis sumber Aesen](docs/SOURCE_ANALYSIS.md): provenance snapshot historis, endpoint saat pengambilan, dan batas data.
 - [Kamus data](docs/DATA_DICTIONARY.md): field, tipe, normalisasi, dan arti null.
 - [Education matching](docs/EDUCATION_MATCHING.md): aturan klasifikasi dan keterbatasan.
-- [Instalasi](docs/INSTALLATION.md): prasyarat, migrasi, sinkron otomatis, import tambahan, build, dan perintah.
-- [Deploy ke Vercel](docs/DEPLOYMENT.md): GitHub, PostgreSQL, konfigurasi production, dan sinkronisasi terjadwal.
+- [Instalasi](docs/INSTALLATION.md): prasyarat, snapshot data, pengembangan lokal, build, dan perintah.
+- [Deploy ke Vercel](docs/DEPLOYMENT.md): impor GitHub dan deploy tanpa database eksternal.
 
 ## Endpoint utama
 
@@ -44,8 +43,6 @@ Buka `http://localhost:5173` lalu masuk ke **Data Management** untuk mengimpor d
 - `GET /api/formations` dan `/api/formations/:id`
 - `GET /api/formations/export?format=csv|xlsx|json`
 - `GET /api/analytics/education|agencies|positions|regions|competition|recommendations|summary`
-- `POST /api/import/preview` (multipart form)
-- `POST /api/import/commit`
 - `GET /api/datasets`, `GET /api/data-quality`
 - `GET/POST/DELETE /api/favorites`
 

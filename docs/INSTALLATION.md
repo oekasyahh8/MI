@@ -21,7 +21,7 @@ npm run db:deploy
 
 `db:deploy` menerapkan migration yang ada. Untuk merancang migration lokal berikutnya, gunakan `npm run db:migrate`.
 
-Secara default, backend otomatis mengambil formasi D-III Manajemen Informatika dari Aesen CASN 2024 saat server mulai, lalu memeriksa pembaruan paling lama setiap 24 jam. Set `AUTO_SYNC_AESEN=false` di `.env` bila pemuatan otomatis perlu dimatikan. Data berasal dari arsip historis 2024, bukan data formasi CPNS 2026.
+Database lokal menyertakan snapshot tetap 879 formasi arsip Aesen CASN 2024 untuk kode prodi D-III Manajemen Informatika. Sinkronisasi Aesen dinonaktifkan secara default (`AUTO_SYNC_AESEN=false`). Data ini bukan formasi resmi CPNS 2026.
 
 ## Pengembangan
 
@@ -31,21 +31,11 @@ npm run dev
 
 Frontend Vite berjalan di `http://localhost:5173`, backend Express di `http://localhost:4000`, dan Vite meneruskan `/api` ke backend.
 
-## Data otomatis dan import tambahan
+## Snapshot data
 
-Pemuatan otomatis tidak memerlukan file. Status jumlah record, waktu sinkronisasi, dan tombol **Perbarui data** ada di halaman **Data Management**. Sumber yang dipakai adalah Aesen dengan filter kode program studi `4480237` (D-III Manajemen Informatika). Rincian endpoint dan keterbatasan field dijelaskan di [Analisis Sumber Data](SOURCE_ANALYSIS.md).
+Halaman **Data Management** menunjukkan jumlah record dan provenance snapshot. Aplikasi tidak menghubungi SSCASN atau Aesen untuk memperbarui data. Untuk mengubah data, buat snapshot baru secara lokal lalu deploy ulang aplikasi.
 
-Untuk deployment production, gunakan PostgreSQL; SQLite hanya untuk pengembangan lokal. Ikuti [panduan Deploy ke Vercel](DEPLOYMENT.md).
-
-Jika ingin menambah dataset lain atau sumber otomatis sedang tidak tersedia:
-
-1. Buka **Data Management**.
-2. Pilih CSV, XLSX, atau JSON.
-3. Tentukan tahun, nama dataset, sumber, dan catatan.
-4. Periksa pratinjau serta mapping otomatis; petakan kolom wajib `Jabatan`, `Instansi`, dan `Jumlah Formasi/Kuota`.
-5. Tekan **Validasi dan impor**. Ringkasan baris berhasil/gagal/duplikat dan kualitas data tersedia sesudah commit.
-
-CSV/XLSX harus memiliki header pada baris pertama. XLSX membaca sheet pertama. JSON menerima array objek atau objek dengan properti array `data`. Batas upload default 25 MB, maksimum 250.000 baris dan 1.000 kolom. Ubah `UPLOAD_MAX_MB` bila konfigurasi mesin memadai.
+Vercel membundel `prisma/offline.sqlite` di dalam API Function. SQLite tersebut disalin ke direktori sementara per instance dan dipakai sebagai snapshot baca-saja secara aplikasi. Ikuti [panduan Deploy ke Vercel](DEPLOYMENT.md).
 
 ## Perintah
 
@@ -61,8 +51,8 @@ npm run db:studio    # Prisma Studio
 
 E2E membuat ulang database khusus `prisma/e2e.db` dan mengimpor fixture sintetis dari `tests/fixtures/`; database aplikasi `prisma/dev.db` tidak digunakan oleh tes tersebut. Playwright mengunduh Chromium satu kali melalui `npx playwright install chromium`. Bila Microsoft Edge sudah tersedia, set `PLAYWRIGHT_CHANNEL=msedge` sebelum menjalankan E2E untuk memakai browser itu.
 
-Build Vite menghasilkan `dist/`; backend TypeScript menghasilkan `dist-server/`. Jalankan API produksi setelah `npm run db:deploy` dengan `npm start`. Sajikan direktori `dist/` melalui static host/reverse proxy yang meneruskan `/api` ke Express.
+Build Vite menghasilkan `dist/`; backend TypeScript menghasilkan `dist-server/`. Saat menjalankan server lokal, gunakan `npm start` setelah `npm run db:deploy`.
 
 ## Data lokal
 
-File SQLite berada di `prisma/dev.db` dan diabaikan Git. Favorit, shortlist, dan catatan tanpa autentikasi disimpan di local storage browser pada perangkat yang sama. Jangan impor data sensitif.
+File kerja SQLite lokal berada di `prisma/dev.db` dan diabaikan Git. Snapshot production yang ikut Git berada di `prisma/offline.sqlite`. Favorit, shortlist, dan catatan tanpa autentikasi disimpan di local storage browser pada perangkat yang sama. Jangan impor data sensitif.

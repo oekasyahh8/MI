@@ -6,17 +6,10 @@ function run(command, args) {
   if (result.status !== 0) process.exit(result.status ?? 1);
 }
 
-run(process.execPath, ['node_modules/prisma/build/index.js', 'generate', '--schema', 'prisma/postgresql/schema.prisma']);
-
-if (process.env.VERCEL_ENV === 'production') {
-  run(process.execPath, ['node_modules/prisma/build/index.js', 'migrate', 'deploy', '--schema', 'prisma/postgresql/schema.prisma']);
-}
+// Production uses the packaged SQLite snapshot. No network database or migration is required.
+run(process.execPath, ['node_modules/prisma/build/index.js', 'generate', '--schema', 'prisma/schema.prisma']);
 
 run(process.execPath, ['node_modules/typescript/bin/tsc', '-p', 'server/tsconfig.json']);
-
-if (process.env.VERCEL_ENV === 'production') {
-  run(process.execPath, ['scripts/sync-aesen-production.mjs']);
-}
 
 run(process.execPath, ['node_modules/typescript/bin/tsc', '-b']);
 run(process.execPath, ['node_modules/vite/bin/vite.js', 'build']);

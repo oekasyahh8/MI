@@ -4,15 +4,10 @@
   "outputDirectory": "dist",
   "functions": {
     "api/[...path].ts": {
-      "maxDuration": 300
+      "maxDuration": 60,
+      "includeFiles": "prisma/offline.sqlite.gz"
     }
   },
-  "crons": [
-    {
-      "path": "/api/source/aesen/cron",
-      "schedule": "0 0 * * *"
-    }
-  ],
   "rewrites": [
     {
       "source": "/(.*)",
