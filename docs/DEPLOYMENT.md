@@ -4,7 +4,7 @@
 
 - GitHub menyimpan kode dan snapshot data.
 - Vercel meng-host frontend dan API Express.
-- Snapshot 879 formasi berada di `prisma/offline.sqlite` dan ikut dibundel dengan API Function.
+- Snapshot 879 formasi berada di `prisma/offline.sqlite.gz` dan ikut dibundel dengan API Function.
 - Vercel tidak membutuhkan Supabase, PostgreSQL, URL database, atau `CRON_SECRET`.
 - Sinkronisasi Aesen dan Cron dinonaktifkan. Data hanya berubah jika snapshot baru di-commit dan aplikasi di-deploy ulang.
 
@@ -20,7 +20,7 @@ Jika Supabase sudah terhubung, aplikasi tidak memakai variabel Supabase yang ter
 
 ## Memperbarui snapshot di masa depan
 
-Perubahan data bukan sinkron live. Siapkan snapshot SQLite baru pada folder `prisma/offline.sqlite`, commit ke branch `main`, lalu biarkan Vercel membuat deployment baru. Pastikan database baru berisi provenance sumber dan hanya dataset yang memang boleh diterbitkan.
+Perubahan data bukan sinkron live. Bila perlu mengganti snapshot, kompres berkas SQLite baru sebagai `prisma/offline.sqlite.gz`, commit ke branch `main`, lalu biarkan Vercel membuat deployment baru. Pastikan database baru berisi provenance sumber dan hanya dataset yang memang boleh diterbitkan.
 
 ## Batas penggunaan
 

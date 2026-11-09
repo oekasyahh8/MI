@@ -35,7 +35,7 @@ Frontend Vite berjalan di `http://localhost:5173`, backend Express di `http://lo
 
 Halaman **Data Management** menunjukkan jumlah record dan provenance snapshot. Aplikasi tidak menghubungi SSCASN atau Aesen untuk memperbarui data. Untuk mengubah data, buat snapshot baru secara lokal lalu deploy ulang aplikasi.
 
-Vercel membundel `prisma/offline.sqlite` di dalam API Function. SQLite tersebut disalin ke direktori sementara per instance dan dipakai sebagai snapshot baca-saja secara aplikasi. Ikuti [panduan Deploy ke Vercel](DEPLOYMENT.md).
+Vercel membundel `prisma/offline.sqlite.gz` di dalam API Function. Snapshot dibuka ke direktori sementara per instance, sehingga aplikasi memakai data dasar dari paket tanpa koneksi Supabase. Ikuti [panduan Deploy ke Vercel](DEPLOYMENT.md).
 
 ## Perintah
 
@@ -55,4 +55,4 @@ Build Vite menghasilkan `dist/`; backend TypeScript menghasilkan `dist-server/`.
 
 ## Data lokal
 
-File kerja SQLite lokal berada di `prisma/dev.db` dan diabaikan Git. Snapshot production yang ikut Git berada di `prisma/offline.sqlite`. Favorit, shortlist, dan catatan tanpa autentikasi disimpan di local storage browser pada perangkat yang sama. Jangan impor data sensitif.
+File kerja SQLite lokal berada di `prisma/dev.db` dan diabaikan Git. Snapshot production terkompresi yang ikut Git berada di `prisma/offline.sqlite.gz`. Favorit, shortlist, dan catatan tanpa autentikasi disimpan di local storage browser pada perangkat yang sama. Jangan impor data sensitif.
