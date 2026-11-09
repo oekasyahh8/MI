@@ -3,7 +3,7 @@
   "buildCommand": "npm run build:vercel",
   "outputDirectory": "dist",
   "functions": {
-    "api/[...path].ts": {
+    "api/**/*.ts": {
       "maxDuration": 60,
       "includeFiles": "prisma/offline.sqlite.gz"
     }
